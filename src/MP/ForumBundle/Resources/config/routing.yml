@@ -1,3 +1,0 @@
-mp_forum_homepage:
-    path:     /
-    defaults: { _controller: MPForumBundle:Default:index }
