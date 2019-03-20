@@ -1,4 +1,14 @@
 {% extends '@App/layout.html.twig' %}
 {% block content %}
 <h1> liste des thèmes </h1>
+<ul>
+{% for themes in listThemes %}
+<li>
+  <a href="{{ path('affichage', {'id': 1}) }}">  
+   {{ themes.intitule }} 
+  </a>
+<li> {{ themes.date|date('d/m/Y') }} </li>
+</br>
+{% endfor %}
+</ul>
 {% endblock %}

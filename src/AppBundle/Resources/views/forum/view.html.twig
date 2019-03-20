@@ -1,0 +1,29 @@
+{% extends '@App/layout.html.twig' %}
+{% block content %}
+<h1> Détails sur le thème  </h1>
+<ul>
+
+  {#<li> <strong> Intitule :</strong> {{ themes.intitule }} </li>  #}
+  {#<li> <strong> Date d'ajout :</strong>  {{ themes.date|date('d/m/Y') }} </li>#}
+  </br>
+
+</ul>
+<ul>
+{% for theme in themes %}
+<li>
+  <a href="{{ path('affichage', {'id': 1}) }}">  
+   {{ theme.intitule }} 
+  </a>
+<li> {{ theme.date|date('d/m/Y') }} </li>
+</br>
+  {% for v2 in theme.messages %} 
+          {# <h2> messages : {{ dump (theme.messages) }} </h2> #}
+          <ul> message : 
+          <li>  {{ v2.titre }} </li>
+          <li>  {{ v2.contenu }} </li>
+          </ul>
+  {% endfor %}
+{% endfor %}
+</ul>
+
+{% endblock %}
