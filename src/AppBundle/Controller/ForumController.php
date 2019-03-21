@@ -7,7 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Theme;
+use AppBundle\Form\ThemeType;
+use AppBundle\Form\ThemeEditType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ForumController extends Controller
 {
@@ -28,10 +32,11 @@ class ForumController extends Controller
 
     /**
      * @Route("/forum/add", name="ajout")
-     * @Template("@App/forum/view.html.twig")
+     * @Template("@App/forum/add.html.twig")
      */
     public function addAction(Request $request)
     {
+        /*
         $theme = new Theme();
         $theme->setIntitule('Matériel');
 
@@ -39,8 +44,27 @@ class ForumController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->persist($theme);
         $em->flush();
+        */
         
+        $theme = new Theme();
+        $form = $this->get('form.factory')->create(ThemeType::class, $theme);
+        
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($theme);
+            $em->flush();
+
         return $this->redirectToRoute('affichage', array('id' => $theme->getId()));
+        }
+        
+        return array(
+            'theme' => $theme,
+            'form' => $form->createView(),
+        );
+    
+        
+          
     }
 
     /**
@@ -65,11 +89,10 @@ class ForumController extends Controller
 
     /**
      * @Route("/forum/edit/{id}", defaults={"id" = 0}, name="modifier")
-     * @Method("GET")
      * @Template("@App/forum/edit.html.twig")
      */
     public function editAction($id, Request $request)
-    {
+    {/*
         // il faut ajouter un formulaire
         $themes = $this->getDoctrine()
         ->getManager()
@@ -78,6 +101,28 @@ class ForumController extends Controller
        ;
         return array(
             'themes' => $themes
+        );
+       */
+      $theme = $this->getDoctrine()
+        ->getManager()
+        ->getRepository('AppBundle:Theme')
+         ->find($id)
+       ;
+       
+        $form = $this->get('form.factory')->create(ThemeEditType::class, $theme);
+        
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            
+            $em = $this->getDoctrine()->getManager();
+            //$em->persist($theme);
+            $em->flush();
+
+        return $this->redirectToRoute('affichage', array('id' => $theme->getId()));
+        }
+        
+        return array(
+            'theme' => $theme,
+            'form' => $form->createView(),
         );
     }
 

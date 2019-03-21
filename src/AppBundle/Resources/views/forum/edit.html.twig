@@ -1,8 +1,11 @@
 {% extends '@App/layout.html.twig' %}
 {% block content %}
 <h1> Modification d'un thème  </h1>
-<ul>
 
+{{ include('@App/forum/form.html.twig') }}
+{#}
+<ul>
+  
   {% for theme in themes %}
    <li>
      <a href="{{ path('affichage', {'id': 1}) }}">  
@@ -14,6 +17,6 @@
 {% endfor %}
 
 </ul>
-
+#}
 
 {% endblock %}
