@@ -11,7 +11,7 @@
 <ul>
 {% for theme in themes %}
 <li>
-  <a href="{{ path('affichage', {'id': 1}) }}">  
+  <a href="{{ path('affichage', {'id': theme.id}) }}">  
    {{ theme.intitule }} 
   </a>
 <li> {{ theme.date|date('d/m/Y') }} </li>
@@ -19,11 +19,36 @@
   {% for v2 in theme.messages %} 
           {# <h2> messages : {{ dump (theme.messages) }} </h2> #}
           <ul> message : 
-          <li>  {{ v2.titre }} </li>
+          <li> <a href="{{ path('affichageMsg', {'id': v2.id})}}"> 
+            {{ v2.titre }}
+               </a>
+           </li>
           <li>  {{ v2.contenu }} </li>
           </ul>
   {% endfor %}
+  <p>
+    <a href="{{ path('accueil') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à la liste des thèmes
+    </a>
+    <a href="{{ path('modifier', {'id': theme.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      modifier le thème
+    </a>
+    <a href="{{ path('supprimer', {'id': theme.id} ) }}" class="btn btn-danger">
+      <i class="glyphicon glyphicon-trash"></i>
+      Supprimer le thème
+    </a>
+  </p>
+  <a href="{{ path('ajoutMsg', {'id': theme.id} ) }}" class="btn btn-danger">
+      <i class="glyphicon glyphicon-trash"></i>
+      Poser une question
+    </a>
+  <p>
+  </p>
 {% endfor %}
 </ul>
+
+
 
 {% endblock %}

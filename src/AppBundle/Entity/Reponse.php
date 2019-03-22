@@ -8,22 +8,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Theme
  *
- * @ORM\Table(name="message")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\MessageRepository")
+ * @ORM\Table(name="reponse")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ReponseRepository")
  */
-class Message
+class Reponse
 {
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Reponse", mappedBy="message", cascade={"persist", "remove"})
-     */
-    private $reponses;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Theme", inversedBy="messages")
+      /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Message", inversedBy="reponses")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $theme;
-
+    private $message;
+   
     /**
      * @var int
      *
@@ -61,6 +56,8 @@ class Message
        $this->date = new \Datetime();
     }
 
+    
+
     /**
      * Get id
      *
@@ -76,7 +73,7 @@ class Message
      *
      * @param string $titre
      *
-     * @return Message
+     * @return Reponse
      */
     public function setTitre($titre)
     {
@@ -100,7 +97,7 @@ class Message
      *
      * @param \DateTime $date
      *
-     * @return Message
+     * @return Reponse
      */
     public function setDate($date)
     {
@@ -124,7 +121,7 @@ class Message
      *
      * @param string $contenu
      *
-     * @return Message
+     * @return Reponse
      */
     public function setContenu($contenu)
     {
@@ -144,60 +141,26 @@ class Message
     }
 
     /**
-     * Set theme
+     * Set message
      *
-     * @param \AppBundle\Entity\Theme $theme
+     * @param \AppBundle\Entity\Message $message
      *
-     * @return Message
+     * @return Reponse
      */
-    public function setTheme(\AppBundle\Entity\Theme $theme)
+    public function setMessage(\AppBundle\Entity\Message $message)
     {
-        $this->theme = $theme;
+        $this->message = $message;
 
         return $this;
     }
 
     /**
-     * Get theme
+     * Get message
      *
-     * @return \AppBundle\Entity\Theme
+     * @return \AppBundle\Entity\Message
      */
-    public function getTheme()
+    public function getMessage()
     {
-        return $this->theme;
-    }
-
-    /**
-     * Add reponse
-     *
-     * @param \AppBundle\Entity\Reponse $reponse
-     *
-     * @return Message
-     */
-    public function addReponse(\AppBundle\Entity\Reponse $reponse)
-    {
-        $this->reponses[] = $reponse;
-
-        return $this;
-    }
-
-    /**
-     * Remove reponse
-     *
-     * @param \AppBundle\Entity\Reponse $reponse
-     */
-    public function removeReponse(\AppBundle\Entity\Reponse $reponse)
-    {
-        $this->reponses->removeElement($reponse);
-    }
-
-    /**
-     * Get reponses
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getReponses()
-    {
-        return $this->reponses;
+        return $this->message;
     }
 }

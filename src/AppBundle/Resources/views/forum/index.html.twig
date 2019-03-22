@@ -4,7 +4,7 @@
 <ul>
 {% for themes in listThemes %}
 <li>
-  <a href="{{ path('affichage', {'id': 1}) }}">  
+  <a href="{{ path('affichage', {'id': themes.id }) }}">  
    {{ themes.intitule }} 
   </a>
 <li> {{ themes.date|date('d/m/Y') }} </li>

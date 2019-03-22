@@ -6,9 +6,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Entity\Theme;
+use AppBundle\Entity\Theme; 
 use AppBundle\Form\ThemeType;
 use AppBundle\Form\ThemeEditType;
+use AppBundle\Entity\Message;
+use AppBundle\Form\MessageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ForumController extends Controller
 {
     /**
-     * @Route("/forum", name="accuiel")
+     * @Route("/forum", name="accueil")
      * @Template("@App/forum/index.html.twig")
      */ 
     public function indexAction(Request $request)
@@ -62,9 +64,7 @@ class ForumController extends Controller
             'theme' => $theme,
             'form' => $form->createView(),
         );
-    
-        
-          
+         
     }
 
     /**
@@ -150,8 +150,61 @@ class ForumController extends Controller
 
       $request->getSession()->getFlashBag()->add('info', "Le thème a bien été supprimée.");
 
-      return $this->redirectToRoute('accuiel');
+      return $this->redirectToRoute('accueil');
 
 
     }
+
+    /**
+     * @Route("/forum/addMsg/{id}", name="ajoutMsg")
+     * @Template("@App/forum/addMsg.html.twig")
+     */
+    public function addMsgAction($id, Request $request)
+    {
+        //on récupère le thème 
+        $em = $this->getDoctrine()
+                    ->getManager();
+        $theme = $em->getRepository('AppBundle:Theme')->find($id);
+        $msg = new Message();
+        
+        $form = $this->get('form.factory')->create(MessageType::class, $msg);
+        
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $msg->setTheme($theme);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($msg);
+            $em->flush();
+            
+        return $this->redirectToRoute('affichage', array('id' => $theme->getId()));
+        }
+        
+        return array(
+            'msg' => $msg,
+            'form' => $form->createView(),
+        );
+         
+    }
+
+    /**
+     * @Route("/forum/viewMsg/{id}", defaults={"id" = 0}, name="affichageMsg")
+     * @Method("GET")
+     * @Template("@App/forum/viewMsg.html.twig")
+     */
+    public function viewMsgAction($id)
+    {
+        
+        $msg = $this->getDoctrine()
+        ->getManager()
+        ->getRepository('AppBundle:Message')
+         //->getMsgById($id)
+         ->find($id);
+       ;
+       //var_dump($msg); die();
+        return array(
+            'msg' => $msg
+        );
+        
+        
+    }
+
 }

@@ -3,6 +3,18 @@
 <h1> Modification d'un thème  </h1>
 
 {{ include('@App/forum/form.html.twig') }}
+
+<p>
+    <a href="{{ path('accueil') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à la liste des thèmes
+    </a>
+    
+    <a href="{{ path('supprimer', {'id': theme.id} ) }}" class="btn btn-danger">
+      <i class="glyphicon glyphicon-trash"></i>
+      Supprimer le thème
+    </a>
+  </p>
 {#}
 <ul>
   
