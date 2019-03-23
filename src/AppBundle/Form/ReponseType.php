@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class MessageType extends AbstractType
+class ReponseType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -29,7 +29,7 @@ class MessageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Message'
+            'data_class' => 'AppBundle\Entity\Reponse'
         ));
     }
 
@@ -38,7 +38,7 @@ class MessageType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_message';
+        return 'appbundle_reponse';
     }
 
 

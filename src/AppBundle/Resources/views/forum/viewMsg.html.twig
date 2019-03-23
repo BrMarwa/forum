@@ -28,6 +28,12 @@
           <li>  {{ v2.contenu }} </li>
           </ul>
   {% endfor %}
+  <p>
+  <a href="{{ path('ajoutRep', {'id': msg.id} ) }}" class="btn btn-danger">
+      <i class="glyphicon glyphicon-trash"></i>
+      Ajouter une réponse
+    </a>
+  </p>
   {#}
   <p>
     <a href="{{ path('accueil') }}" class="btn btn-default">

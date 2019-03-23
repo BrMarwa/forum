@@ -11,6 +11,8 @@ use AppBundle\Form\ThemeType;
 use AppBundle\Form\ThemeEditType;
 use AppBundle\Entity\Message;
 use AppBundle\Form\MessageType;
+use AppBundle\Entity\Reponse;
+use AppBundle\Form\ReponseType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -205,6 +207,36 @@ class ForumController extends Controller
         );
         
         
+    }
+
+    /**
+     * @Route("/forum/addRep/{id}", name="ajoutRep")
+     * @Template("@App/forum/addRep.html.twig")
+     */
+    public function addRepAction($id, Request $request)
+    {
+        //on récupère le message 
+        $em = $this->getDoctrine()
+                    ->getManager();
+        $msg = $em->getRepository('AppBundle:Message')->find($id);
+        $rep = new Reponse();
+        
+        $form = $this->get('form.factory')->create(ReponseType::class, $rep);
+        
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $rep->setMessage($msg);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($rep);
+            $em->flush();
+            
+        return $this->redirectToRoute('affichageMsg', array('id' => $msg->getId()));
+        }
+        
+        return array(
+            'rep' => $rep,
+            'form' => $form->createView(),
+        );
+         
     }
 
 }
