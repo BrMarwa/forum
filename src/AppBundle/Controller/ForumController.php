@@ -16,6 +16,8 @@ use AppBundle\Form\ReponseType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ForumController extends Controller
 {
@@ -37,6 +39,7 @@ class ForumController extends Controller
     /**
      * @Route("/forum/add", name="ajout")
      * @Template("@App/forum/add.html.twig")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -92,6 +95,7 @@ class ForumController extends Controller
     /**
      * @Route("/forum/edit/{id}", defaults={"id" = 0}, name="modifier")
      * @Template("@App/forum/edit.html.twig")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction($id, Request $request)
     {/*
@@ -132,6 +136,7 @@ class ForumController extends Controller
      * @Route("/forum/delete/{id}", defaults={"id" = 0}, name="supprimer")
      * @Method("GET")
      * @Template("@App/forum/delete.html.twig")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction($id, Request $request)
     {
